@@ -19,10 +19,11 @@ public class VerificatController extends BaseController {
 	@AutoBuild
 	EmailService emailService;
 
-	
 	@PathBinding("/sendCode")
 	public Object sendCode(SendCodeVO vo) {
-
+		if (vo == null || vo.getEmail() == null) {
+			return ResultCode.E_1010_EMAIL_NULLABLE.toMsgEntity();
+		}
 		CodeWrapper wrapper = emailService.getCode(vo.getEmail());
 		if (wrapper != null) {
 			if (System.currentTimeMillis() - wrapper.getCreateTime().getTime() < 1000 * 60) {

@@ -11,6 +11,8 @@ import org.coody.reduce.common.entity.MsgEntity;
 public enum ResultCode {
 
 	// 编码
+	E_1010_EMAIL_NULLABLE(1010, "邮箱为空"),
+	// 编码
 	E_1009_USER_FROZEN(1009, "用户不可用"),
 	// 编码
 	E_1008_USER_UNAVABLE(1008, "用户审核中"),
