@@ -5,7 +5,7 @@
 
 	<groupId>org.coody</groupId>
 	<artifactId>reduce</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>beta-1.0</version>
 	<packaging>jar</packaging>
 
 	<name>reduce</name>
@@ -17,7 +17,7 @@
 		<h2db.version>1.3.175</h2db.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<log4j.version>1.2.11</log4j.version>
-		<coody.version>alpha-1.6.2</coody.version>
+		<coody.version>alpha-1.6.3</coody.version>
 	</properties>
 
 	<dependencies>
