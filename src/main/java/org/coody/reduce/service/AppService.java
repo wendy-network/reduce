@@ -19,7 +19,7 @@ public class AppService {
 	@AutoBuild
 	JdbcProcessor jdbcProcessor;
 
-	@CacheWrite(key = CacheConstant.APP_INFO, fields = "id", time = 72000)
+	@CacheWrite(key = CacheConstant.APP_INFO, fields = "id", expire = 72000)
 	public AppInfo getAppInfo(Integer id) {
 
 		return jdbcProcessor.findBeanFirst(AppInfo.class, "id", id);
@@ -34,6 +34,7 @@ public class AppService {
 		}
 		return jdbcProcessor.updateByPriKey(app, "id");
 	}
+
 	@Transacted
 	@CacheWipe(key = CacheConstant.APP_LIST, fields = "app.userId")
 	@CacheWipe(key = CacheConstant.APP_INFO, fields = "app.id")
@@ -42,17 +43,17 @@ public class AppService {
 		return jdbcProcessor.update(sql, app.getId());
 	}
 
-	@CacheWrite(time = 3)
+	@CacheWrite(expire = 3)
 	public List<AppInfo> getAppInfos(AppInfo app) {
 		return jdbcProcessor.findBean(app);
 	}
 
-	@CacheWrite(key = CacheConstant.APP_LIST, fields = "userId", time = 72000)
+	@CacheWrite(key = CacheConstant.APP_LIST, fields = "userId", expire = 72000)
 	public List<AppInfo> getAppInfos(Integer userId) {
 		return jdbcProcessor.findBean(AppInfo.class, "userId", userId);
 	}
 
-	@CacheWrite(key = CacheConstant.APP_INFO, fields = "unionId", time = 72000)
+	@CacheWrite(key = CacheConstant.APP_INFO, fields = "unionId", expire = 72000)
 	public AppInfo getAppInfo(String unionId) {
 		return jdbcProcessor.findBeanFirst(AppInfo.class, "unionId", unionId);
 	}

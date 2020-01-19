@@ -28,12 +28,12 @@ public class UserService {
 		return jdbcProcessor.update(sql, value, user.getEmail());
 	}
 
-	@CacheWrite(key = CacheConstant.USER_INFO, fields = "email", time = 72000)
+	@CacheWrite(key = CacheConstant.USER_INFO, fields = "email", expire = 72000)
 	public UserInfo getUserInfo(String email) {
 		return jdbcProcessor.findBeanFirst(UserInfo.class, "email", email);
 	}
 
-	@CacheWrite(key = CacheConstant.USER_INFO, fields = "id", time = 72000)
+	@CacheWrite(key = CacheConstant.USER_INFO, fields = "id", expire = 72000)
 	public UserInfo getUserInfo(Integer id) {
 		return jdbcProcessor.findBeanFirst(UserInfo.class, "id", id);
 	}

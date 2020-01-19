@@ -18,7 +18,7 @@ public class ShortService {
 	@AutoBuild
 	JdbcProcessor jdbcProcessor;
 
-	@CacheWrite(key = CacheConstant.SHORT_INFO, fields = "id", time = 60)
+	@CacheWrite(key = CacheConstant.SHORT_INFO, fields = "id", expire = 60)
 	public ShortInfo getShortInfo(Long id) {
 		return jdbcProcessor.findBeanFirst(ShortInfo.class, "id", id);
 	}
