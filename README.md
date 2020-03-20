@@ -19,7 +19,7 @@ Coody Framework地址：[https://gitee.com/coodyer/Coody-Framework](https://gite
 
 也可以Maven Install 构建Jar包，丢服务器java -jar 运行。记得配置数据库。
 
-![输入图片说明](https://images.gitee.com/uploads/images/2020/0110/173922_5072b0fb_1200611.png "8.png")
+![输入图片说明](https://images.gitee.com/uploads/images/2020/0320/213406_6f5b702f_1200611.png "T.png")
 
 #### 更换数据库
 
