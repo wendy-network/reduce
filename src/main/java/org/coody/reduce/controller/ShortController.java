@@ -94,7 +94,7 @@ public class ShortController extends BaseController {
 		}
 		return ResultCode.E_200_SUCCESS.toMsgEntity();
 	}
-
+	@LoginCheck
 	@PathBinding("/del")
 	public Object del(Long id) {
 		ShortInfo shorter = shortService.getShortInfo(id);
