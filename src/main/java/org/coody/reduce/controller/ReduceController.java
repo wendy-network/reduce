@@ -26,6 +26,7 @@ public class ReduceController extends BaseController {
 		if (CommonUtil.isNullOrEmpty(code)) {
 			return;
 		}
+		System.out.println(code);
 		Long id = PECode.decode(code);
 		if (id == null) {
 			return;
