@@ -35,7 +35,6 @@ public class AppService {
 		return jdbcProcessor.updateByPriKey(app, "id");
 	}
 
-	@Transacted
 	@CacheWipe(key = CacheConstant.APP_LIST, fields = "app.userId")
 	@CacheWipe(key = CacheConstant.APP_INFO, fields = "app.id")
 	public Long delAppInfo(AppInfo app) {
