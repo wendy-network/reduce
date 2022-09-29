@@ -97,15 +97,15 @@ CREATE TABLE `email_queue` (
 
 #### 随便丢几张图
 
-###### 登录页面
+###### 登录页面  http://127.0.0.1:81/html/login.html
 
 ![输入图片说明](https://images.gitee.com/uploads/images/2020/0110/171636_d9d9093f_1200611.png "1.png")
 
-###### 注册页面
+###### 注册页面  http://127.0.0.1:81/html/register.html
 
 ![输入图片说明](https://images.gitee.com/uploads/images/2020/0110/171653_0950dff5_1200611.png "2.png")
 
-###### 找回密码页面
+###### 找回密码页面  http://127.0.0.1:81/html/reset_password.html
 
 ![输入图片说明](https://images.gitee.com/uploads/images/2020/0110/171709_80999218_1200611.png "3.png")
 
