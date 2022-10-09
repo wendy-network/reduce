@@ -32,7 +32,7 @@ public class ShortController extends BaseController {
 
 	@PathBinding("/create")
 	public Object create(String unionId, String url) {
-		AppInfo app = appService.getAppInfo(unionId);
+		AppInfo app = appService.fromUnionId(unionId);
 		if (CommonUtil.isNullOrEmpty(app)) {
 			return ResultCode.E_1001_APP_EXISTS.toMsgEntity();
 		}
@@ -44,7 +44,7 @@ public class ShortController extends BaseController {
 		info.setCreateTime(new Date());
 		info.setUserId(app.getUserId());
 		info.setAppId(app.getId());
-		Long id = shortService.addShortInfo(info);
+		Long id = shortService.insert(info);
 		if (id < 1) {
 			return ResultCode.E_500_SYS_BUSY.toMsgEntity();
 		}
@@ -55,7 +55,7 @@ public class ShortController extends BaseController {
 	@LoginCheck
 	@PathBinding("/info")
 	public Object save(Long id) {
-		ShortInfo shorter = shortService.getShortInfo(id);
+		ShortInfo shorter = shortService.fromId(id);
 		if (shorter == null) {
 			return ResultCode.E_403_NOT_EXISTS.toMsgEntity();
 		}
@@ -71,7 +71,7 @@ public class ShortController extends BaseController {
 	@ParamsAdapt(JsonMealAdapter.class)
 	public Object save(ShortInfo info) {
 		if (!CommonUtil.isNullOrEmpty(info.getId())) {
-			ShortInfo shorter = shortService.getShortInfo(info.getId());
+			ShortInfo shorter = shortService.fromId(info.getId());
 			if (shorter == null) {
 				return ResultCode.E_403_NOT_EXISTS.toMsgEntity();
 			}
@@ -83,12 +83,12 @@ public class ShortController extends BaseController {
 		if (info.getAppId() == null) {
 			return ResultCode.E_1001_APP_EXISTS.toMsgEntity();
 		}
-		AppInfo app = appService.getAppInfo(info.getAppId());
+		AppInfo app = appService.fromId(info.getAppId());
 		if (app == null) {
 			return ResultCode.E_1001_APP_EXISTS.toMsgEntity();
 		}
 		info.setUserId(getCurrentUserId());
-		Long code = shortService.saveShortInfo(info);
+		Long code = shortService.save(info);
 		if (code < 1) {
 			return ResultCode.E_500_SYS_BUSY.toMsgEntity();
 		}
@@ -97,7 +97,7 @@ public class ShortController extends BaseController {
 	@LoginCheck
 	@PathBinding("/del")
 	public Object del(Long id) {
-		ShortInfo shorter = shortService.getShortInfo(id);
+		ShortInfo shorter = shortService.fromId(id);
 		if (CommonUtil.isNullOrEmpty(shorter) || shorter.getUserId() != getCurrentUserId().intValue()) {
 			return ResultCode.E_403_NOT_EXISTS.toMsgEntity();
 		}
@@ -119,13 +119,13 @@ public class ShortController extends BaseController {
 			pager = new Pager();
 		}
 		shorter.setUserId(getCurrentUserId());
-		pager = shortService.getPager(pager, shorter);
+		pager = shortService.findPager(pager, shorter);
 		if (!CommonUtil.isNullOrEmpty(pager.getData())) {
 			List<ShortInfoDTO> dtos = PropertUtil.getNewList(pager.getData(), ShortInfoDTO.class);
 			for (ShortInfoDTO dto : dtos) {
 				String shortUrl = request.getBasePath() + "/" + PECode.encode(dto.getId());
 				dto.setShortUrl(shortUrl);
-				AppInfo app = appService.getAppInfo(dto.getAppId());
+				AppInfo app = appService.fromId(dto.getAppId());
 				dto.setAppName(app == null ? "" : app.getName());
 			}
 			pager.setData(dtos);

@@ -30,7 +30,7 @@ public class EmailTask {
 				Runnable runn = new Runnable() {
 					@Override
 					public void run() {
-						emailService.sendEmail(queue);
+						emailService.send(queue);
 					}
 				};
 				handle.pushTask(runn);

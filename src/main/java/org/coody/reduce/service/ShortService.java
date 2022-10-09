@@ -19,23 +19,23 @@ public class ShortService {
 	JdbcProcessor jdbcProcessor;
 
 	@CacheWrite(key = CacheConstant.SHORT_INFO, fields = "id", expire = 60)
-	public ShortInfo getShortInfo(Long id) {
+	public ShortInfo fromId(Long id) {
 		return jdbcProcessor.findBeanFirst(ShortInfo.class, "id", id);
 	}
 
 	@CacheWipe(key = CacheConstant.SHORT_INFO, fields = "info.id")
-	public Long saveShortInfo(ShortInfo info) {
+	public Long save(ShortInfo info) {
 		if (CommonUtil.isNullOrEmpty(info.getId())) {
 			return jdbcProcessor.insert(info);
 		}
 		return jdbcProcessor.updateByPriKey(info, "id");
 	}
 
-	public Long addShortInfo(ShortInfo info) {
+	public Long insert(ShortInfo info) {
 		return jdbcProcessor.insert(info);
 	}
 
-	public Pager getPager(Pager pager, ShortInfo shorter) {
+	public Pager findPager(Pager pager, ShortInfo shorter) {
 		return jdbcProcessor.findPager(shorter, pager, "id", true);
 	}
 

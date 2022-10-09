@@ -27,7 +27,7 @@ public class EmailService {
 	@AutoBuild
 	EmailSendConfig emailConfig;
 
-	public boolean sendEmail(EmailQueue queue) {
+	public boolean send(EmailQueue queue) {
 
 		String sql = "update email_queue set status=1 where id=? limit 1";
 		Long code = jdbcProcessor.update(sql, queue.getId());
@@ -40,7 +40,7 @@ public class EmailService {
 		return true;
 	}
 
-	public String createCode(String email) {
+	public String create(String email) {
 		Integer code = RandomUtil.random(1000, 9999);
 		String key = CacheConstant.EMAIL_CODE + email;
 
@@ -51,7 +51,7 @@ public class EmailService {
 		return code.toString();
 	}
 
-	public boolean checkCode(String email, String code) {
+	public boolean check(String email, String code) {
 		String key = CacheConstant.EMAIL_CODE + email;
 		CodeWrapper wrapper = localCache.getCache(key);
 		if (wrapper == null) {
@@ -65,7 +65,7 @@ public class EmailService {
 		return true;
 	}
 
-	public CodeWrapper getCode(String email) {
+	public CodeWrapper fromEmail(String email) {
 		String key = CacheConstant.EMAIL_CODE + email;
 		return localCache.getCache(key);
 	}
@@ -73,7 +73,7 @@ public class EmailService {
 	/**
 	 * 发送验证码
 	 */
-	public boolean sendEmail(String targe, String code) {
+	public boolean send(String targe, String code) {
 		EmailQueue queue = new EmailQueue();
 		queue.setTitle("Reduce 验证邮件");
 		queue.setContext("您的验证码是：" + code);

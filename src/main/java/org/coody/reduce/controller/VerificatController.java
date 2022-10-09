@@ -24,14 +24,14 @@ public class VerificatController extends BaseController {
 		if (vo == null || vo.getEmail() == null) {
 			return ResultCode.E_1010_EMAIL_NULLABLE.toMsgEntity();
 		}
-		CodeWrapper wrapper = emailService.getCode(vo.getEmail());
+		CodeWrapper wrapper = emailService.fromEmail(vo.getEmail());
 		if (wrapper != null) {
 			if (System.currentTimeMillis() - wrapper.getCreateTime().getTime() < 1000 * 60) {
 				return ResultCode.E_1007_SEND_TOO_BUSY.toMsgEntity();
 			}
 		}
-		String code = emailService.createCode(vo.getEmail());
-		boolean isSended = emailService.sendEmail(vo.getEmail(), code);
+		String code = emailService.create(vo.getEmail());
+		boolean isSended = emailService.send(vo.getEmail(), code);
 		if (!isSended) {
 			return ResultCode.E_500_SYS_BUSY.toMsgEntity();
 		}

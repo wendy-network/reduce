@@ -20,7 +20,7 @@ public class AppService {
 	JdbcProcessor jdbcProcessor;
 
 	@CacheWrite(key = CacheConstant.APP_INFO, fields = "id", expire = 72000)
-	public AppInfo getAppInfo(Integer id) {
+	public AppInfo fromId(Integer id) {
 
 		return jdbcProcessor.findBeanFirst(AppInfo.class, "id", id);
 	}
@@ -28,7 +28,7 @@ public class AppService {
 	@Transacted
 	@CacheWipe(key = CacheConstant.APP_LIST, fields = "app.userId")
 	@CacheWipe(key = CacheConstant.APP_INFO, fields = "app.id")
-	public Long saveAppInfo(AppInfo app) {
+	public Long save(AppInfo app) {
 		if (CommonUtil.isNullOrEmpty(app.getId())) {
 			return jdbcProcessor.insert(app);
 		}
@@ -37,23 +37,23 @@ public class AppService {
 
 	@CacheWipe(key = CacheConstant.APP_LIST, fields = "app.userId")
 	@CacheWipe(key = CacheConstant.APP_INFO, fields = "app.id")
-	public Long delAppInfo(AppInfo app) {
+	public Long del(AppInfo app) {
 		String sql = MessageFormat.format("delete from {0} where id=? limit 1", JdbcUtil.getTableName(AppInfo.class));
 		return jdbcProcessor.update(sql, app.getId());
 	}
 
 	@CacheWrite(expire = 3)
-	public List<AppInfo> getAppInfos(AppInfo app) {
+	public List<AppInfo> fromModel(AppInfo app) {
 		return jdbcProcessor.findBean(app);
 	}
 
 	@CacheWrite(key = CacheConstant.APP_LIST, fields = "userId", expire = 72000)
-	public List<AppInfo> getAppInfos(Integer userId) {
+	public List<AppInfo> fromUserId(Integer userId) {
 		return jdbcProcessor.findBean(AppInfo.class, "userId", userId);
 	}
 
 	@CacheWrite(key = CacheConstant.APP_INFO, fields = "unionId", expire = 72000)
-	public AppInfo getAppInfo(String unionId) {
+	public AppInfo fromUnionId(String unionId) {
 		return jdbcProcessor.findBeanFirst(AppInfo.class, "unionId", unionId);
 	}
 }

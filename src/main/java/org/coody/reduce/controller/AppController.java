@@ -30,7 +30,7 @@ public class AppController extends BaseController {
 		AppInfo app = new AppInfo();
 		app.setStatus(1);
 		if (!CommonUtil.isNullOrEmpty(vo.getId())) {
-			app = appService.getAppInfo(vo.getId());
+			app = appService.fromId(vo.getId());
 			Integer userId = getCurrentUserId();
 			if (app == null || userId != app.getUserId().intValue()) {
 				return ResultCode.E_403_NOT_EXISTS.toMsgEntity();
@@ -43,7 +43,7 @@ public class AppController extends BaseController {
 		app.setName(vo.getName());
 		app.setUnionId(JUUIDUtil.createUuid());
 		app.setUserId(getCurrentUserId());
-		Long code = appService.saveAppInfo(app);
+		Long code = appService.save(app);
 		if (code < 1) {
 			return ResultCode.E_500_SYS_BUSY.toMsgEntity();
 		}
@@ -53,7 +53,7 @@ public class AppController extends BaseController {
 	@LoginCheck
 	@PathBinding("/info")
 	public Object info(Integer id) {
-		AppInfo app = appService.getAppInfo(id);
+		AppInfo app = appService.fromId(id);
 		Integer userId = getCurrentUserId();
 		if (app == null || userId != app.getUserId().intValue()) {
 			return ResultCode.E_403_NOT_EXISTS.toMsgEntity();
@@ -69,7 +69,7 @@ public class AppController extends BaseController {
 			app = new AppInfo();
 		}
 		app.setUserId(getCurrentUserId());
-		List<AppInfo> apps = appService.getAppInfos(app);
+		List<AppInfo> apps = appService.fromModel(app);
 		if (CommonUtil.isNullOrEmpty(apps)) {
 			return ResultCode.E_404_NOT_DATAS.toMsgEntity();
 		}
@@ -79,12 +79,12 @@ public class AppController extends BaseController {
 	@LoginCheck
 	@PathBinding("/del")
 	public Object del(Integer id) {
-		AppInfo app = appService.getAppInfo(id);
+		AppInfo app = appService.fromId(id);
 		Integer userId = getCurrentUserId();
 		if (app == null || userId != app.getUserId().intValue()) {
 			return ResultCode.E_403_NOT_EXISTS.toMsgEntity();
 		}
-		Long code = appService.delAppInfo(app);
+		Long code = appService.del(app);
 		if (code < 1) {
 			return ResultCode.E_500_SYS_BUSY.toMsgEntity();
 		}

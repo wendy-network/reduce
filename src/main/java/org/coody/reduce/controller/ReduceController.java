@@ -31,7 +31,7 @@ public class ReduceController extends BaseController {
 		if (id == null) {
 			return;
 		}
-		ShortInfo info = shortService.getShortInfo(id);
+		ShortInfo info = shortService.fromId(id);
 		if (info == null || info.getStatus() != 1) {
 			return;
 		}

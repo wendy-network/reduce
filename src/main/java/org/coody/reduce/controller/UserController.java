@@ -36,11 +36,11 @@ public class UserController extends BaseController {
 
 	@PathBinding("/create")
 	public Object create(UserCreateVO vo) {
-		boolean isChecked = emailService.checkCode(vo.getEmail(), vo.getCode());
+		boolean isChecked = emailService.check(vo.getEmail(), vo.getCode());
 		if (!isChecked) {
 			return ResultCode.E_1003_CODE_ERROR.toMsgEntity();
 		}
-		UserInfo user = userService.getUserInfo(vo.getEmail());
+		UserInfo user = userService.fromEmail(vo.getEmail());
 		if (user != null) {
 			return ResultCode.E_1004_MAIL_EXISTS.toMsgEntity();
 		}
@@ -49,7 +49,7 @@ public class UserController extends BaseController {
 		user.setEmail(vo.getEmail());
 		user.setPassword(vo.getPassword());
 		user.setStatus(1);
-		Long code = userService.addUserInfo(user);
+		Long code = userService.insert(user);
 		if (code < 1) {
 			return ResultCode.E_500_SYS_BUSY.toMsgEntity();
 		}
@@ -71,15 +71,15 @@ public class UserController extends BaseController {
 
 	@PathBinding("/resetPwd")
 	public Object resetPwd(UserCreateVO vo) {
-		boolean isChecked = emailService.checkCode(vo.getEmail(), vo.getCode());
+		boolean isChecked = emailService.check(vo.getEmail(), vo.getCode());
 		if (!isChecked) {
 			return ResultCode.E_1003_CODE_ERROR.toMsgEntity();
 		}
-		UserInfo user = userService.getUserInfo(vo.getEmail());
+		UserInfo user = userService.fromEmail(vo.getEmail());
 		if (user == null) {
 			return ResultCode.E_1005_MAIL_NOT_EXISTS.toMsgEntity();
 		}
-		Long code = userService.modifyUserInfo(user, "password");
+		Long code = userService.modify(user, "password");
 		if (code < 1) {
 			return ResultCode.E_500_SYS_BUSY.toMsgEntity();
 		}
@@ -94,7 +94,7 @@ public class UserController extends BaseController {
 	@LoginCheck
 	@PathBinding("/info")
 	public Object info() {
-		UserInfo user = userService.getUserInfo(getCurrentUserId());
+		UserInfo user = userService.fromId(getCurrentUserId());
 		if (user == null) {
 			return ResultCode.E_1005_MAIL_NOT_EXISTS.toMsgEntity();
 		}
@@ -105,7 +105,7 @@ public class UserController extends BaseController {
 
 	@PathBinding("/login")
 	public Object login(UserLoginVO vo) {
-		UserInfo user = userService.getUserInfo(vo.getEmail());
+		UserInfo user = userService.fromEmail(vo.getEmail());
 		if (user == null) {
 			return ResultCode.E_1005_MAIL_NOT_EXISTS.toMsgEntity();
 		}

@@ -15,13 +15,13 @@ public class UserService {
 	@AutoBuild
 	JdbcProcessor jdbcProcessor;
 
-	public Long addUserInfo(UserInfo user) {
+	public Long insert(UserInfo user) {
 		return jdbcProcessor.insert(user);
 	}
 
 	@CacheWipe(key = CacheConstant.USER_INFO, fields = "user.email")
 	@CacheWipe(key = CacheConstant.USER_INFO, fields = "user.id")
-	public Long modifyUserInfo(UserInfo user, String field) {
+	public Long modify(UserInfo user, String field) {
 		String sql = String.format("update %s set %s=? where email=? limit 1", JdbcUtil.getTableName(user.getClass()),
 				field);
 		String value = PropertUtil.getFieldValue(user, field);
@@ -29,12 +29,12 @@ public class UserService {
 	}
 
 	@CacheWrite(key = CacheConstant.USER_INFO, fields = "email", expire = 72000)
-	public UserInfo getUserInfo(String email) {
+	public UserInfo fromEmail(String email) {
 		return jdbcProcessor.findBeanFirst(UserInfo.class, "email", email);
 	}
 
 	@CacheWrite(key = CacheConstant.USER_INFO, fields = "id", expire = 72000)
-	public UserInfo getUserInfo(Integer id) {
+	public UserInfo fromId(Integer id) {
 		return jdbcProcessor.findBeanFirst(UserInfo.class, "id", id);
 	}
 }
