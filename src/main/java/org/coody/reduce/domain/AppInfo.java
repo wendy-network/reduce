@@ -22,7 +22,7 @@ public class AppInfo extends DBModel {
 	/**
 	 * 状态 -1冻结 0待审核 1正常 2暂停
 	 */
-	private Integer status;
+	private Integer status = 1;
 
 	public Integer getId() {
 		return id;

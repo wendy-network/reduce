@@ -21,7 +21,6 @@ public class AppService {
 
 	@CacheWrite(key = CacheConstant.APP_INFO, fields = "id", expire = 72000)
 	public AppInfo fromId(Integer id) {
-
 		return jdbcProcessor.findBeanFirst(AppInfo.class, "id", id);
 	}
 

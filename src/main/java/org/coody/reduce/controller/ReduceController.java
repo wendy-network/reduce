@@ -22,11 +22,10 @@ public class ReduceController extends BaseController {
 	FrequencyQueue frequencyQueue;
 
 	@PathBinding("/{code}")
-	public void trigger(String code) {
+	public void jump(String code) {
 		if (CommonUtil.isNullOrEmpty(code)) {
 			return;
 		}
-		System.out.println(code);
 		Long id = PECode.decode(code);
 		if (id == null) {
 			return;
@@ -44,6 +43,5 @@ public class ReduceController extends BaseController {
 	@PathBinding("/index.do")
 	public void index(String code, MinicatServletResponse response) {
 		response.sendRedirect("/html/login.html");
-		;
 	}
 }

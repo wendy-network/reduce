@@ -28,11 +28,9 @@ public class AppController extends BaseController {
 	@ParamsAdapt(JsonMealAdapter.class)
 	public Object save(AppCreateVO vo) {
 		AppInfo app = new AppInfo();
-		app.setStatus(1);
 		if (!CommonUtil.isNullOrEmpty(vo.getId())) {
 			app = appService.fromId(vo.getId());
-			Integer userId = getCurrentUserId();
-			if (app == null || userId != app.getUserId().intValue()) {
+			if (app == null ||  getCurrentUserId() != app.getUserId().intValue()) {
 				return ResultCode.E_403_NOT_EXISTS.toMsgEntity();
 			}
 			if (app.getStatus() > 0) {
