@@ -61,7 +61,7 @@ public class ImportDatabase implements InitBeanFace {
 								|| tables.contains(table)) {
 							continue;
 						}
-						LogUtil.log.info("初始化数据表>>" + table);
+						LogUtil.log.info("初始化数据表>>%s", table);
 						jdbcProcessor.update(INIT_DATABASE.get(table));
 					}
 				} catch (SQLException e) {
